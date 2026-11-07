@@ -1,5 +1,5 @@
 {% set name = "ensembl-utils" %}
-{% set version = "0.4.0" %}
+{% set version = "1.1.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/ensembl_utils-{{ version }}.tar.gz
-  sha256: e21ee25f201d2b653fbd1c0d007ddc0e3a51f44e6b519738d19fdbebf155a29b
+  sha256: 9d1bfa4d7b48e4f6a1bab6f35d937f1743715b23f031433a2f4c2592326a3ce9
 
 build:
   entry_points:

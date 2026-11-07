@@ -1,23 +1,25 @@
-{% set version = "1.1.2" %}
+{% set name = "trust4" %}
+{% set version = "1.1.10" %}
 
 package:
-  name: trust4
-  version: '{{ version }}'
+  name: {{ name }}
+  version: {{ version }}
 
 build:
-  number: 1
+  number: 0
   run_exports:
     - {{ pin_subpackage('trust4', max_pin="x") }}
 
 source:
   url: https://github.com/liulab-dfci/TRUST4/archive/v{{ version }}.tar.gz
-  sha256: 9321775c9636e31e4448952a9338c78736b652d46f219c0aef28386a0ca3d5a0
+  sha256: 286a7c40577c199dec7a089355276b7d9d1baf360c8c76dc3ec61a22e52a5bdd
 
 requirements:
   build:
     - make
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
+    - {{ stdlib('c') }}
   host:
     - samtools 0.1.19.* # [x86_64]
     - zlib
@@ -39,12 +41,18 @@ test:
     - test -x ${PREFIX}/bin/run-trust4
 
 about:
-  home: https://github.com/liulab-dfci/TRUST4
-  summary: TCR and BCR assembly from bulk or single-cell RNA-seq data
-  license: GPL-3.0-only
-  license_family: GPL3
-  license_file: LICENSE.txt
+  home: "https://github.com/liulab-dfci/TRUST4"
+  summary: "TCR and BCR assembly from bulk or single-cell RNA-seq data."
+  license: MIT
+  license_family: MIT
+  license_file: "LICENSE.txt"
+  dev_url: "https://github.com/liulab-dfci/TRUST4"
+  doc_url: "https://github.com/liulab-dfci/TRUST4/blob/v{{ version }}/README.md"
 
 extra:
   additional-platforms:
     - linux-aarch64
+    - osx-arm64
+  identifiers:
+    - doi:10.1038/s41592-021-01142-2
+    - biotools:trust4

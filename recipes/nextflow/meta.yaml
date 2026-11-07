@@ -1,5 +1,5 @@
-{% set version = "24.04.3" %}
-{% set sha256 = "e258f6395a38f044eb734cba6790af98b561aa521f63e2701fe95c050986e11c" %}
+{% set version = "26.10.5" %}
+{% set sha256 = "7b6005aa9da0611d404c218b515f57c7b8e91a78af9e2c2adb21c4074eb2d175" %}
 
 package:
   name: nextflow
@@ -17,13 +17,15 @@ source:
 
 requirements:
   host:
-    - conda-forge::openjdk >=11,<=21
-    - conda-forge::coreutils
-    - conda-forge::curl
+    - openjdk >=17,<26
+    - coreutils          # [not win]
+    - uutils-coreutils   # [win]
+    - curl
   run:
-    - conda-forge::openjdk >=11,<=21
-    - conda-forge::coreutils
-    - conda-forge::curl
+    - openjdk >=17,<26
+    - coreutils          # [not win]
+    - uutils-coreutils   # [win]
+    - curl
 
 test:
   commands:
@@ -37,4 +39,6 @@ about:
 extra:
   recipe-maintainers:
     - pditommaso
+    - bentsherman
+    - ewels
     - mjsteinbaugh

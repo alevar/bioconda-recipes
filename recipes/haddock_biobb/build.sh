@@ -1,24 +1,13 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -xe
 
-# Compile FCC
-cd src/
-git clone https://github.com/haddocking/fcc.git
-cd fcc/src
-chmod u+x Makefile
-make \
-    CPP="${CXX}"
-cd $SRC_DIR
+# setup.py calls gcc and g++ by name and compiles with -march=native
+ln -sf "${CC}" "${BUILD_PREFIX}/bin/gcc"
+ln -sf "${CXX}" "${BUILD_PREFIX}/bin/g++"
+sed -i 's/ *"-march=native",//' setup.py
+# haddock-restraints comes from the second source, not from a download
+sed -i 's/^        self\.download_binaries()$/        pass/' setup.py
 
-# Compile fast-rmsdmatrix
-cd src/
-git clone https://github.com/mgiulini/fast-rmsdmatrix.git
-cd fast-rmsdmatrix/src
-chmod u+x Makefile
-make \
-    CC="${CC}"
-cd $SRC_DIR
+${PYTHON} -m pip install . --no-deps --no-build-isolation --no-cache-dir -vvv
 
-${PYTHON} setup.py install --single-version-externally-managed --record=record.txt
-
-mkdir -p $PREFIX/bin
-mkdir -p $SRC_DIR/bin
+install -m 755 haddock-restraints/haddock-restraints "${SP_DIR}/haddock/bin/haddock-restraints"

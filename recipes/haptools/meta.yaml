@@ -1,5 +1,5 @@
 {% set name = "haptools" %}
-{% set version = "0.4.2" %}
+{% set version = "0.6.3" %}
 
 package:
   name: {{ name|lower }}
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/haptools-{{ version }}.tar.gz
-  sha256: 8b9be7d787184e0384b9ff96a75fcb48b6bbc4f1d6f521e6d1c27b4dd336327c
+  sha256: b0779fcba91b262d3f4a2e03076d9be88a1a69a3b03e164238c02e312d39d322
 
 build:
   number: 0

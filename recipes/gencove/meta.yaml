@@ -1,6 +1,6 @@
 {% set name = "gencove" %}
-{% set version = "2.18.1" %}
-{% set sha256 = "3e9cd5172ba7b72017685de0e6f141584177f74647746ab964f686f5c6470e8b" %}
+{% set version = "4.5.1" %}
+{% set sha256 = "d55c63b2479bcaeb505ae214373ca7630f2a18675452160257ccd2cb792204e4" %}
 
 package:
   name: {{ name }}

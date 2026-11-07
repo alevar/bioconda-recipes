@@ -1,41 +1,45 @@
 {% set name = "table2asn" %}
-{% set version = "1.28.943" %}
-{% set sha256 = "91632c6442986d5af455421ed8121647f9bd90e64560ba27ae0b2ab0a1289ae6" %}
-{% set release_date = "2023-10-05" %}
+{% set version = "1.29.324" %}
+{% set sha256 = "785bed9880856b208ed84d9765ca094b7c7d12d2225781c2a1854b650d3984bf" %}
+{% set release_date = "2025-09-16" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
-  release_date: {{ release_date }}
 
 source:
 - url: https://ftp.ncbi.nlm.nih.gov/asn1-converters/versions/{{ release_date }}/by_program/{{ name }}/mac.{{ name }}.gz  # [osx]
-  sha256: 3ecc9fc29beb69640d47cd49a43b342ee6d7627f25c7b2d78dd44fce00cd2c6d   # [osx]
+  sha256: 348b9d5f1b05065f4e5e61b6c2350e5ff044de2d6dc14765be6ac02c00e59341   # [osx]
 - url: https://ftp.ncbi.nlm.nih.gov/asn1-converters/versions/{{ release_date }}/by_program/{{ name }}/linux64.{{ name }}.gz  # [linux]
   sha256: {{ sha256 }}  # [linux]
 
 build:
   number: 0
+  # NCBI only ships an arm64 macOS binary for this release
+  skip: true  # [osx and x86_64]
   run_exports:
-    - {{ pin_subpackage('table2asn', max_pin="x.x") }}
+    - {{ pin_subpackage('table2asn', max_pin="x") }}
 
 requirements:
   host:
-    - libidn11
-    - zlib
-    - bzip2
+    - libsqlite  # [linux]
 
 test:
   commands:
-    - table2asn -help
+    # The Linux binary needs glibc >= 2.28; the bioconda build container has glibc 2.17, so it cannot be run there.
+    - test -x "${PREFIX}/bin/table2asn"  # [linux]
+    - table2asn -help  # [osx]
 
 about:
-  home: 'https://www.ncbi.nlm.nih.gov/genbank/table2asn/'
+  home: 'https://www.ncbi.nlm.nih.gov/genbank/table2asn'
   license: Public Domain
   summary: 'table2asn is a command-line program that creates sequence records for submission to GenBank - replaces tbl2asn.'
   doc_url: 'https://ftp.ncbi.nlm.nih.gov/asn1-converters/by_program/table2asn/DOCUMENTATION/table2asn_readme.txt'
 
 extra:
+  additional-platforms:
+    - osx-arm64
+  notes: 'The Linux binary requires glibc >= 2.28 at runtime.'
   skip-lints:
     - should_be_noarch_generic
     - should_not_be_noarch_source
